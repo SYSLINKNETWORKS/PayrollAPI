@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <!-- <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings> -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>    
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <NoWarn>$(NoWarn);SYSLIB0021;SYSLIB0023</NoWarn>
+    <Company>MMC</Company>
+    <Authors>ABDUL SATTAR IBRAHIM</Authors>
+    <Product>Payroll Service</Product>
+    <Description >Payroll Service</Description >
+    <Copyright>Copyright © 2022</Copyright>
+
+    <AssemblyVersion>1.2.912.2022</AssemblyVersion>
+    <Version>1.2.912.2022</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="*">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="*" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="*" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="*" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="*" />
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
+    <PackageReference Include="JsonDiffer" Version="*" />
+    <PackageReference Include="SendGrid" Version="9.22.0" />
+
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.7" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="161.44091.28" />
+  </ItemGroup>
+
+</Project>

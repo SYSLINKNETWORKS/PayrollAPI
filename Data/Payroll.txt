@@ -1,0 +1,282 @@
+ Designation
+             insert into designation (id,[Name],[Director],[Salesman],[Type],CompanyId,[Active],[Action],UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+             select newid(),memp_sub_nam,isnull(memp_sub_ckdir,0),isnull(memp_sub_salman,0),memp_sub_typ,(select top 1 company.id from Company order by name desc),1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' from twp_db.dbo.m_emp_sub
+
+            Department
+             insert into department (id,[Name],[Type],CompanyId,[Active],[Action],UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+             select newid(),dpt_nam,dpt_typ,(select top 1 company.id from Company order by name desc),1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' from twp_db.dbo.m_dpt
+
+            Roster
+            alter table roster add ros_id int
+            insert into roster (Id,Name,Type,CompanyId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate,ros_id) 
+            select newID(),ros_nam,ros_typ,(select top 1 company.id from Company order by name desc),1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23',ros_id from twp_db.dbo.m_ros
+
+            Employee Category
+             insert into EmployeeCategory (Id,Name,Type,CompanyId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+             select newID(),mempcat_nam,mempcat_typ,(select top 1 company.id from Company order by name desc),1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' from twp_db.dbo.m_empcat
+
+            Annaul Leaves
+             insert into AnnualLeaves (Id,Date,Name,AnnualLeaveAllow,AnnualLeaveDays,SickLeaveAllow,SickLeaveDays,CasualLeaveAllow,CasualLeaveDays,Type,CompanyId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+             select newID(),empanl_dat,empanl_name,empanl_ck_al,empanl_al,empanl_ck_sl,empanl_sl,empanl_ck_cl,empanl_cl,empanl_typ,(select top 1 company.id from Company order by name desc),1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' from twp_db.dbo.m_empanl
+
+            Employee
+            alter table employee add emppro_id int
+              insert into Employee (
+              Id,emppro_id,MachineId,Name,FatherName,
+              Address,DateofJoin,Gender,Married,DateofBirth,CNIC,NTN,
+              Phone,Mobile,Email,
+              CompanyExpirence,CompanyExpirenceDescription,CompanyExpirenceFrom,CompanyExpirenceTo,CompanyExpirenceRemarks,
+              QualificationInstitute,Qualification,QualificationYear,QualificationRemarks,
+              Gratuity,EOBI,SESSI,StopPayment,
+              ResignationCheck,ResignationDate,ResignationRemarks,
+              Active,Type,
+              ModeOfPayment,OverTime,AttendanceAllowance,OverTimeHoliday,OverTimeRate,
+              EOBIRegistrationDate,EOBIRegistrationNo,
+              SalaryAccount,LateDeduction,OvertimeSaturday,OverTimeFactory,AttendanceExempt,
+              OverTimeRateCheck,DocumentAuthorize,TemporaryPermanent,
+              SESSIRegistrationDate,SESSIRegistrationNo,
+              OverTimeSpecialRate,IncomeTax,CNICExpire ,
+              ProvisionPeriod,DateofParmanent,
+              AddressPermanent,EmergencyContactOne,EmergencyContactTwo,Remarks,
+              TakafulRate,OfficeWorker,
+              ReferenceOne,ReferenceCNICOne,ReferenceAddressOne,ReferenceContactOne,
+              ReferenceTwo,ReferenceCNICTwo,ReferenceAddressTwo,ReferenceContactTwo,
+              EmployeeCategoryId,DepartmentId,DesignationId,RosterId,BranchId,Action,
+              AnnualLeavesId,
+              UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+              select 
+              newID() as [ID],emppro_id,emppro_macid,emppro_nam,emppro_fnam,
+              emppro_add,emppro_doj,case emppro_gen when 'M' then 'Male' when 'F' then 'Female' end,case emppro_mar when 'M' then 'Married' else 'Unmarried' end,emppro_dob,emppro_cnic,emppro_ntn,
+              emppro_pho,emppro_mob,emppro_eml,
+              isnull(emppro_expcom,'') as [emppro_expcom],isnull(emppro_expdes,'') as [emppro_expdes],emppro_expyrfrm,emppro_expyrto,isnull(emppro_exprmk,'') as [emppro_exprmk],
+              isnull(emppro_quains,'') as [emppro_quains],isnull(emppro_quaqua,'') as [emppro_quaqua],emppro_quayr,isnull(emppro_quarmk,'') as [emppro_quarmk],
+              emppro_salgra,emppro_saleobi,emppro_salsessi,emppro_salsp,
+              emppro_reg,emppro_reg_dat,emppro_reg_rmk,
+              emppro_st,emppro_typ,
+              case when emppro_salpay='' then 'Cash' else emppro_salpay end as [emppro_salpay] ,emppro_ot,emppro_att,emppro_ho,emppro_rat,
+              emppro_saleobi_dor,isnull(emppro_saleobi_reg,'') as [emppro_saleobi_reg],
+              isnull(emppro_salpay_acc,'') as [emppro_salpay_acc],emppro_lde,emppro_sot,emppro_fot,emppro_attexp,
+              emppro_ckrat,emppro_autact,case emppro_tp when 'T' then 'Temporary' when 'P' then 'Permanent' end,
+              emppro_dat_sessi,emppro_sessi_no,
+              emppro_srat,emppro_incometax,isnull(emppro_cnicexp,'2021-07-24') as emppro_cnicexp,
+              emppro_period,isnull(emppro_dop,'2021-07-24') as emppro_dop,
+              case when emppro_peradd is null then emppro_add when emppro_peradd='' then emppro_add else emppro_add end as [emppro_peradd],isnull(emppro_emergcontone,'') as [emppro_emergcontone],isnull(emppro_emergconttwo,'') as [emppro_emergconttwo],isnull(emppro_rmk,'') as [emppro_rmk],
+              emppro_takaful,case emppro_ow when 'O' then 'Office' else 'Worker' end as emppro_ow,
+              isnull(emppro_ref,'') as [emppro_ref],isnull(emppro_refcnicone,'') as [emppro_refcnicone],isnull(emppro_refaddone,'') as [emppro_refaddone],isnull(emppro_refconone,'') as [emppro_refconone],
+              isnull(emppro_reftwo,'') as [emppro_reftwo],isnull(emppro_refcnictwo,'') as [emppro_refcnictwo],isnull(emppro_refaddtwo,'') as [emppro_refaddtwo],isnull(emppro_refcontwo,'') as [emppro_refcontwo],
+              EmployeeCategory.ID as mempcat_id,department.id as [DepartmentId],
+              Designation.Id as [DesignationId],Roster.Id as [RoaterId],(select id from Branch) as [BranchId],
+              --,BranchId,
+              'A' as [Action],
+              (select top 1 annualleaves.id from annualleaves order by insertdate desc) as [AnnualLeavesId],
+              (select top 1 users.id from users order by email) as [UserName],isnull(m_emppro.ins_dat,'2021-07-23') as [ins_dat],isnull(m_emppro.upd_dat,'2021-07-23') as [upd_dat],'2021-07-23' as [delete_dat]
+              from twp_db.dbo.m_emppro
+              inner join twp_db.dbo.m_empcat on m_emppro.emppro_cat=m_empcat.mempcat_id
+              inner join EmployeeCategory on m_empcat.mempcat_nam=EmployeeCategory.name
+
+              inner join twp_db.dbo.m_dpt on m_emppro.dpt_id=m_dpt.dpt_id
+              inner join Department on m_dpt.dpt_nam=Department.name
+
+              inner join twp_db.dbo.m_emp_sub on m_emppro.memp_sub_id=m_emp_sub.memp_sub_id
+              inner join designation on m_emp_sub.memp_sub_nam=designation.name
+
+              inner join Roster on m_emppro.ros_id=Roster.ros_id
+
+            Employee Allowance
+             insert into employeeallowances
+             select newid(), Employee.Id,Allowance.Id from twp_db.dbo.m_empall
+             inner join Employee on m_empall.emppro_id=employee.emppro_id
+             inner join twp_db.dbo.m_all on m_empall.all_id=m_all.all_id
+             inner join Allowance on m_all.all_nam=Allowance.Name 
+
+            tbldat_dat
+            insert into dailydate
+             select tbldat_dat,tbldat_hol,tbldat_rmk from twp_db.dbo.tbl_dat
+
+            Holiday
+            insert into Holiday (Id,Date,HolidayCheck,FactoryOverTimeCheck,Remarks,Type,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+            select newID(),mholi_dat,mholi_dayact,mholi_fovertime,mholi_rmks,mholi_typ,(select top 1 company.id from Company order by name desc),'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' from twp_db.dbo.m_holi
+
+            Absent
+             insert into absents (Id,Date,Approved,ApprovedAdjust,ApprovedAdjustType,EmployeeId,Type,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+             select newID(),mabs_dat,mabs_app,mabs_inf,isnull(mabs_leave,''),employee.id,mabs_typ,(select top 1 company.id from Company order by name desc),'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' 
+             from twp_db.dbo.m_abs
+             inner join employee on m_abs.emppro_id=employee.emppro_id
+
+            AttendanceMachineCategory
+             insert into AttendanceMachineCategory (Id,Name,Type,CompanyId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+             select newID(),mac_com_nam,mac_com_typ,(select top 1 company.id from Company order by name desc),1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' 
+             from twp_db.dbo.m_mac_com
+
+            AttendanceMachine
+            insert into Branch(ID,Name,ShortName,CompanyId,HeadOffice,Type,Action,Active,InsertDate,UpdateDate,DeleteDate) 
+            values(newid(),'Unit - 2','Unit - 2',  (select id from Company),0,'U','A', 1,'2021-08-21','2021-08-21','2021-08-21')
+
+              insert into AttendanceMachine (Id,Name,Ip,Port,Category,AttendanceMachineCategoryId,Type,BranchId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+              select newID(),mac_nam,mac_ip,mac_prt,mac_cat,AttendanceMachineCategory.id,mac_typ,branch.id,1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' 
+              from twp_db.dbo.m_mac
+              inner join twp_db.dbo.m_mac_com on m_mac.mac_com_id=m_mac_com.mac_com_id
+              inner join twp_db.dbo.m_br on m_mac.br_id=m_br.br_id
+              inner join AttendanceMachineCategory on m_mac_com.mac_com_nam= AttendanceMachineCategory.Name
+              inner join Branch on m_br.br_nam= Branch.Name
+
+            Inout Category
+              insert into InoutCategory (Id,Name,Type,CompanyId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+              select newID(),inoutcat_nam,inoutcat_typ,(select top 1 company.id from Company order by name desc),1,'A',(select top 1 users.id from users order by email),'2021-07-23','2021-07-23','2021-07-23' 
+              from twp_db.dbo.m_inoutcat
+
+            Checkinout
+              insert into checkinout (MachineId,CheckTime,CheckType,VerifyCode,SensorId,Status,Type,Approved,Remarks,Latitude,Longitude,Address,AttendanceMachineId,InOutCategoryId,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+              select UserName,checktime,checktype,VerifyCode,SensorId,ckinout_St,check_typ,check_app,isnull(check_rmk,''),isnull(Latitude,0),isnull(Longitude,0),isnull(Address,''),isnull(AttendanceMachine.Id,'06C5563A-891E-48BE-9850-B6F7F68656C1'),InOutCategory.Id,(select top 1 company.id from Company order by name desc),'A',(select top 1 users.id from users order by email),isnull(checkinout1.ins_dat,'2021-07-23'),'2021-07-23','2021-07-23' 
+              from CHECKINOUT1
+              left join twp_db.dbo.m_mac 
+              on CHECKINOUT1.mac_id=m_mac.mac_id
+              left join AttendanceMachine on m_mac.mac_nam=AttendanceMachine.Name
+             left join twp_db.dbo.m_inoutcat
+             on CHECKINOUT1.inoutcat_id=m_inoutcat.inoutcat_id
+             left join InOutCategory on m_inoutcat.inoutcat_nam=InOutCategory.Name
+
+            CheckInout
+              insert into checkinout (MachineId,CheckTime,date,CheckType,VerifyCode,SensorId,Status,Type,Approved,Remarks,Latitude,Longitude,Address,AttendanceMachineId,InOutCategoryId,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+              select UserName,checktime,convert(char,checktime,101),checktype,VerifyCode,SensorId,ckinout_St,check_typ,check_app,isnull(check_rmk,''),isnull(Latitude,0),isnull(Longitude,0),isnull(Address,''),isnull(AttendanceMachine.Id,'06C5563A-891E-48BE-9850-B6F7F68656C1'),InOutCategory.Id,(select top 1 company.id from Company order by name desc),'A',(select top 1 users.id from users order by email),isnull(checkinout1.ins_dat,'2021-07-23'),'2021-07-23','2021-07-23' 
+              from CHECKINOUT1
+              left join twp_db.dbo.m_mac 
+              on CHECKINOUT1.mac_id=m_mac.mac_id
+              left join AttendanceMachine on m_mac.mac_nam=AttendanceMachine.Name
+             left join twp_db.dbo.m_inoutcat
+             on CHECKINOUT1.inoutcat_id=m_inoutcat.inoutcat_id
+             left join InOutCategory on m_inoutcat.inoutcat_nam=InOutCategory.Name
+
+            CheckAttendance
+              insert into checkattendance(EmployeeId,Date,Inn,Out,Minutes,Approved,AttendanceMachineIdInn,AttendanceMachineIdOut,CompanyId,UserNameInsert,InsertDate) 
+              select Employee.id,convert(char,checkatt_dat,101),checkatt_inn,checkatt_out,case when checkatt_out is null then 0 else datediff(MINUTE,checkatt_inn,checkatt_out) end as checkatt_min,isnull(checkatt_app,0),AttendanceMachineInn.id as [Machine_Inn],AttendanceMachineOut.id as [Machine_Out],(select top 1 company.id from Company order by name desc),(select top 1 users.id from users order by email),'2021-07-23' 
+              from checkatt
+              inner join Employee on checkatt.emppro_id=Employee.emppro_id
+              left join m_mac m_mac_inn
+              on checkatt.mac_id_inn=m_mac_inn.mac_id
+              left join AttendanceMachine AttendanceMachineInn on m_mac_inn.mac_nam=AttendanceMachineInn.Name
+             left join m_mac m_mac_out
+              on checkatt.mac_id_out=m_mac_out.mac_id
+              left join AttendanceMachine AttendanceMachineOut on m_mac_out.mac_nam=AttendanceMachineOut.Name
+
+            Roster Group
+              insert into RosterGroup(Id,Date,OverTime,WorkingHours,Late,EarlyGoing,EarlyOvertime,MorningWorkingHours,EveningWorkingHours,
+             MondayCheck,MondayInn,MondayOut,MondayWorkingHours,
+             TuesdayCheck,TuesdayInn,TuesdayOut,TuesdayWorkingHours,
+             WednesdayCheck,WednesdayInn,WednesdayOut,WednesdayWorkingHours,
+             ThursdayCheck,ThursdayInn,ThursdayOut,ThursdayWorkingHours,
+             FridayCheck,FridayInn,FridayOut,FridayWorkingHours,
+             SaturdayCheck,SaturdayInn,SaturdayOut,SaturdayWorkingHours,
+             SundayCheck,SundayInn,SundayOut,SundayWorkingHours,
+             RosterId,Type,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate) 
+              select newid(),rosgp_dat,rosgp_ota,rosgp_wh,rosgp_lat,rosgp_ear,rosgp_earot,rosgp_mwh,rosgp_ewh,
+             rosgp_ck_mon,rosgp_in_mon,rosgp_out_mon,rosgp_mon_wh,
+             rosgp_ck_tue,rosgp_in_tue,rosgp_out_tue,rosgp_tue_wh,
+             rosgp_ck_wed,rosgp_in_wed,rosgp_out_wed,rosgp_wed_wh,
+             rosgp_ck_thu,rosgp_in_thu,rosgp_out_thu,rosgp_thu_wh,
+             rosgp_ck_fri,rosgp_in_fri,rosgp_out_fri,rosgp_fri_wh,
+             rosgp_ck_sat,rosgp_in_sat,rosgp_out_sat,rosgp_sat_wh,
+             rosgp_ck_sun,rosgp_in_sun,rosgp_out_sun,rosgp_sun_wh,
+             roster.id,rosgp_typ,(select top 1 company.id from Company order by name desc),'A',(select top 1 users.id from users order by email),isnull(m_rosgp.ins_dat,'2021-07-23'),'2021-07-23','2021-07-23' 
+              from m_rosgp
+              inner join m_ros 
+              on m_rosgp.ros_id=m_ros.ros_id 
+              inner join roster on m_ros.ros_nam= roster.name
+
+            Allowance
+             alter table allowance add all_id int
+             insert into allowance (Id,Name,Amount,Fix,Type,CompanyId,Active,Action,InsertDate,UpdateDate,DeleteDate,all_id)
+             (select newid(),all_nam,all_amt,all_fix,all_typ,(select id from company),1,'A','2021-08-23','2021-08-23','2021-08-23',all_id
+             from twp_db.dbo.m_all)
+
+            Income Tax Slab
+             insert into IncomeTaxSlabEmployees(Id,Date,SlabFrom,SlabTo,Percentage,Amount,Type,CompanyId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+             select newid(), mslab_dat,mslab_strt,mslab_end,mslab_per,mslab_amt,'U',(select id from Company),1,'A',(select top 1 id from Users order by InsertDate),'2021-08-27','2021-08-27','2021-8-27' From twp_db.dbo.m_slab
+
+            Loan Category
+             insert into LoanCategory(Id,Name,Type,CompanyId,Active,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+             select newid(),mloan_nam,'U',(select id from Company),1,'A',(select top 1 id from Users order by InsertDate),'2021-08-27','2021-08-27','2021-8-27' from TWP_DB.dbo.m_loan
+
+            Loan Issue
+             alter table loanissue add tloan_id int
+              insert into LoanIssue( Id,Date,Amount,NoOfInstalment,InstalmentAmount,LoanCategoryId,LoanStatus,EmployeeId,CheaqueCash,Remarks,Type,CompanyId,
+              Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate,tloan_id)
+              select newid(),tloan_dat,tloan_amt,tloan_ins,tloan_insamt,LoanCategory.id,tloan_st,Employee.id,tloan_cb,tloan_rmk,tloan_typ,(select id from Company),'A',(select top 1 id from Users order by InsertDate),'2021-08-27','2021-08-27','2021-08-27',tloan_id 
+              from twp_Db.dbo.t_loan
+              inner join twp_Db.dbo.m_loan on t_loan.mloan_id=m_loan.mloan_id
+              inner join LoanCategory on m_loan.mloan_nam=LoanCategory.Name
+              inner join Employee on t_loan.emppro_id=Employee.emppro_id
+
+            Loan Received
+              insert into LoanReceive( Id,Date,Amount,CheaqueCash,Type,LoanIssueId,CompanyId,
+              Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+              select newid(),trec_dat,trec_amt,trec_cb,trec_typ,loanissue.id,(select id from Company),'A',(select top 1 id from Users order by InsertDate),'2021-08-27','2021-08-27','2021-08-27' 
+              from twp_db.dbo.t_rec_loan
+              inner join twp_Db.dbo.t_loan
+              on t_rec_loan.tloan_id=t_loan.tloan_id
+              inner join LoanIssue on t_loan.tloan_id=LoanIssue.tloan_id
+
+            Advance
+             insert into Advance (Id,Date,Amount,EmployeeId,Type,CheaqueCash,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+             select newid(),adv_dat,adv_amt,Employee.id,adv_typ,adv_cb,(select id from Company),'A',(select top 1 id from Users order by InsertDate),'2021-08-27','2021-08-27','2021-08-27' 
+             from twp_db.dbo.t_adv
+             inner join Employee on t_adv.emppro_id=Employee.emppro_id
+
+            Addition Deduction
+             insert into SalaryAdditionDeduction
+             (Id,Date,AdditionAmount,DeductionAmount,EmployeeId,Type,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+             select newid(),saldedadd_dat,saldedadd_addamt,saldedadd_dedamt,employee.id,'U',(select id from Company),'A',(select top 1 id from Users order by InsertDate),'2021-08-27','2021-08-27','2021-08-27' from twp_db.dbo.t_saldedadd
+             inner join Employee on t_saldedadd.emppro_id=Employee.emppro_id
+
+            Salary
+             insert into salary(Id,Date,PreviousAmount,IncreamentPercentage,IncreamentAmount,CurrentAmount,EmployeeId,Type,CompanyId,Action,UserNameInsert,InsertDate,UpdateDate,DeleteDate)
+             select newid(),msal_Dat,msal_pamt,msal_per,msal_val,msal_amt,Employee.Id,msal_typ ,(select id from Company),'A',(select top 1 id from Users order by InsertDate),'2021-08-27','2021-08-27','2021-08-27'
+             from twp_db_old.dbo.m_sal
+             inner join employee on m_sal.emppro_id=Employee.emppro_id
+
+            Staff Salary
+             insert into staffsalary (EmployeeId,[Date],
+             CheckIncomeTax,Takaful,DateOfJoining,DateOfResign,AttendanceExempted,CheckAttendanceAllowance,
+             CheckOvertime,SalaryAmount,SalaryAllowanceAmount,SalaryGrossAmount,NoOfDaysMonth,WorkingDays,ResignDays,JoinDays,WorkingHours,
+             SalaryPerDay,SalaryPerHour,SalaryPerminute,SalaryGrossPerDay,SalaryGrossPerHour,SalaryGrossPerMinute,PresentDays,AbsentDays,
+             AbsentDaysApproval,TotalAbsentDays,AdjustedDays,AdvanceAmount,LoanAmount,IncomeTaxAmount,AdditionAmount,DeductionAmount,
+             AttendanceAllowanceAmount,OvertimeMinutes,OvertimeHours,OvertimeDays,LateMinutes,LateHours,LateDays,LateDaysTotal,AbsentMinutes,
+             AbsentHours,OvertimeRate,OvertimeActual,OvertimeActualAmount,AbsentDaysActual,AbsentDaysActualAmount,LateDaysActual,LateDaysActualAmount,
+             Amount,GrossAmount,PayableAmount,AllowanceAbsent,
+             CompanyId,UserNameInsert,InsertDate)
+             select 
+             Employee.id,salary_date,salary_ckinctax,salary_takaful,salary_doj,salary_regdate,salary_attendace_exempted,salary_ckattendanceallownace,
+             salary_ckovertime,salary_amount,salary_allowanceamount,salary_grossamount,salary_noofdaysmonth,isnull(salary_WorkingDays,0),isnull(employee_salary_staff_resign_days,0),isnull(employee_salary_staff_join_days,0),salary_workinghours,
+             salary_perday,salary_perhour,salary_perminute,salary_grossperday,salary_grossperhour,salary_grossperminute,salary_presentdays,salary_absentdays,
+             salary_absentdaysapproval,salary_totalabsentdays,salary_adjusteddays,salary_advance,salary_loan,salary_incometaxamount,salary_addition,salary_deduction,
+             salary_attendanceallowanceamount,employee_salary_staff_overtime_minutes,employee_salary_staff_overtime_hours,employee_salary_staff_overtime_days,employee_salary_staff_late_minutes,employee_salary_staff_late_hours,employee_salary_staff_late_days,employee_salary_staff_late_days_Total,employee_salary_staff_absent_minutes,
+             employee_salary_staff_absent_hours,employee_salary_staff_overtime_rate,employee_salary_staff_overtime_actual,employee_salary_staff_overtime_actual_amount,employee_salary_staff_absentdays_actual,employee_salary_staff_absentdays_actual_amount,employee_salary_staff_latedays_actual,employee_salary_staff_latedays_actual_amount,
+             employee_salary_staff_amount,employee_salary_staff_amount_gross,employee_salary_staff_amount_payable,salary_allowanceabsent,
+             (select top 1 id from Company),(select top 1 id from Users order by InsertDate),'2021-08-27'
+             from twp_db.dbo.employee_salary_staff
+             inner join Employee on employee_salary_staff.emppro_id=Employee.emppro_id
+
+            Worker Salary
+              insert into workersalary (EmployeeId,[Date],
+             			CheckIncomeTax,Takaful,DateOfJoining,DateOfResign,AttendanceExempted,CheckAttendanceAllowance,
+             			CheckOvertime,SalaryAmount,SalaryAllowanceAmount,SalaryGrossAmount,NoOfDaysMonth,WorkingDays,
+             			ResignDays,JoinDays,WorkingHours,SalaryPerDay,SalaryPerHour,SalaryPerminute,SalaryGrossPerDay,SalaryGrossPerHour,SalaryGrossPerMinute,
+             			PresentDays,AbsentDays,AbsentDaysApproval,TotalAbsentDays,AdjustedDays,AdvanceAmount,LoanAmount,IncomeTaxAmount,
+             			AdditionAmount,DeductionAmount,AttendanceAllowanceAmount,OvertimeMinutes,OvertimeHours,OvertimeDays,
+             			LateMinutes,LateHours,LateDays,LateDaysTotal,
+             			AbsentMinutes,AbsentHours,OvertimeRate,OvertimeActual,OvertimeActualAmount,
+             			AbsentDaysActual,AbsentDaysActualAmount,LateDaysActual,LateDaysActualAmount,
+             			Amount,GrossAmount,PayableAmount,AllowanceAbsent,CompanyId,UserNameInsert,InsertDate)
+              select 
+              Employee.id,salary_date,salary_ckinctax,salary_takaful,salary_doj,salary_regdate,salary_attendace_exempted,salary_ckattendanceallownace,
+              salary_ckovertime,salary_amount,salary_allowanceamount,salary_grossamount,salary_noofdaysmonth,isnull(salary_WorkingDays,0),
+              isnull(employee_salary_worker_resign_days,0),isnull(employee_salary_worker_join_days,0),salary_workinghours,
+              salary_perday,salary_perhour,salary_perminute,salary_grossperday,salary_grossperhour,salary_grossperminute,salary_presentdays,salary_absentdays,
+              salary_absentdaysapproval,salary_totalabsentdays,salary_adjusteddays,salary_advance,salary_loan,salary_incometaxamount,salary_addition,salary_deduction,
+              salary_attendanceallowanceamount,employee_salary_worker_overtime_minutes,employee_salary_worker_overtime_hours,employee_salary_worker_overtime_days,employee_salary_worker_late_minutes,employee_salary_worker_late_hours,employee_salary_worker_late_days,employee_salary_worker_late_days_Total,employee_salary_worker_absent_minutes,
+              employee_salary_worker_absent_hours,employee_salary_worker_overtime_rate,employee_salary_worker_overtime_actual,employee_salary_worker_overtime_actual_amount,employee_salary_worker_absentdays_actual,employee_salary_worker_absentdays_actual_amount,employee_salary_worker_latedays_actual,employee_salary_worker_latedays_actual_amount,
+              employee_salary_worker_amount,employee_salary_worker_amount_gross,employee_salary_worker_amount_payable,salary_allowanceabsent,
+              (select top 1 id from Company),(select top 1 NormalizedUserName from Users order by InsertDate),'2021-08-27'
+              from twp_db_old.dbo.employee_salary_worker
+              inner join Employee on employee_salary_worker.emppro_id=Employee.emppro_id
+
